@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{iPSVGResult.termSlug}"></f:viewParam>
+            <f:viewParam name="terminstanceslug" value="#{iPSVGResult.termInstanceSlug}"></f:viewParam>
+            <f:viewAction action="#{iPSVGResult.getIPsvgResultData()}"/>
+        </f:metadata>
+        <div class="card">
+            <h1>#{iPSVGResult.termName}</h1>
+        </div>
+        <p:panel id="termMetaDataBlk">
+            <p:panelGrid columns="2">
+                <h:outputLabel for="param" value="#{iPSVGResult.termScreenFieldsDesc['psvgparam']}" />
+                <h:outputText id="param" value="#{iPSVGResult.ipsvgResultInstance['psvgparamDesc']}" />
+                <h:outputLabel for="dataseries" value="#{iPSVGResult.termScreenFieldsDesc['dataseries']}" />
+                <h:outputText id="dataseries" value="#{iPSVGResult.ipsvgResultInstance['dataseriesDesc']}" />
+                <h:outputLabel for="ipsvg" value="#{iPSVGResult.termScreenFieldsDesc['ipsvg']}" />
+                <h:outputText id="ipsvg" value="#{iPSVGResult.ipsvgResultInstance['ipsvg']}" />
+                <h:outputLabel for="queued" value="#{iPSVGResult.termScreenFieldsDesc['queued']}" />
+                <h:outputText id="queued" value="#{iPSVGResult.ipsvgResultInstance['queued']}" />
+
+            </p:panelGrid>
+            <hr></hr>
+            <h:form>
+                <p:button styleClass="black-button" value="Back" outcome="IPSVGCalcList"/>
+                <p:button styleClass="blue-button" value="View Result Details" outcome="IPSVGResultDetails"/>
+                <p:button styleClass="blue-button" value="View Result Chart" outcome="IPSVGResultChart"/>
+
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

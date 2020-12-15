@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{mfdxaResult.termSlug}"></f:viewParam>
+            <f:viewParam name="terminstanceslug" value="#{mfdxaResult.termInstanceSlug}"></f:viewParam>
+            <f:viewAction action="#{mfdxaResult.getMfdxaResultData()}"/>
+        </f:metadata>
+        <div class="card">
+            <h1>#{mfdxaResult.termName}</h1>
+        </div>
+        <p:panelGrid columns="2">
+            <h:outputLabel for="param" value="#{mfdxaResult.termScreenFieldsDesc['mfdxaparam']}" />
+            <h:outputText id="param" value="#{mfdxaResult.mfdxaResultInstance['mfdxaparamDesc']}" />
+            <h:outputLabel for="dataseriesirst" value="#{mfdxaResult.termScreenFieldsDesc['dataseriesfirst']}" />
+            <h:outputText id="dataseriesirst" value="#{mfdxaResult.mfdxaResultInstance['dataseriesfirstDesc']}" />
+            <h:outputLabel for="dataseriessecond" value="#{mfdxaResult.termScreenFieldsDesc['dataseriessecond']}" />
+            <h:outputText id="dataseriessecond" value="#{mfdxaResult.mfdxaResultInstance['dataseriessecondDesc']}" />
+            <h:outputLabel for="hurstexponent" value="#{mfdxaResult.termScreenFieldsDesc['hurstexponent']}" />
+            <h:outputText id="hurstexponent" value="#{mfdxaResult.mfdxaResultInstance['hurstexponent']}" />
+
+            <h:outputLabel for="hurstexpSE" value="#{mfdxaResult.termScreenFieldsDesc['gammax']}" />
+            <h:outputText id="hurstexpSE" value="#{mfdxaResult.mfdxaResultInstance['gammax']}" />
+            <h:outputLabel for="hurstexprsquare" value="#{mfdxaResult.termScreenFieldsDesc['hurstexprsquare']}" />
+            <h:outputText id="hurstexprsquare" value="#{mfdxaResult.mfdxaResultInstance['hurstexprsquare']}" />
+            <h:outputLabel for="hurstexponentchisq" value="#{mfdxaResult.termScreenFieldsDesc['hurstexponentchisq']}" />
+            <h:outputText id="hurstexponentchisq" value="#{mfdxaResult.mfdxaResultInstance['hurstexponentchisq']}" />
+            <h:outputLabel for="queued" value="#{mfdxaResult.termScreenFieldsDesc['queued']}" />
+            <h:outputText id="queued" value="#{mfdxaResult.mfdxaResultInstance['queued']}" />
+
+        </p:panelGrid>
+        <hr></hr>
+
+        <p:button  styleClass="black-button" value="Back" outcome="MFDXACalcList"/>
+
+
+
+
+    </ui:define>
+
+</ui:composition>

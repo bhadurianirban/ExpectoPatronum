@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{psvgResult.termSlug}"></f:viewParam>
+            <f:viewParam name="terminstanceslug" value="#{psvgResult.termInstanceSlug}"></f:viewParam>
+            <f:viewAction action="#{psvgResult.getPsvgResultData()}"/>
+        </f:metadata>
+        <div class="card">
+            <h1>#{psvgResult.termName}</h1>
+        </div>
+        <p:panel id="termMetaDataBlk">
+
+
+            <p:panelGrid  columns="2">
+                <h:outputLabel for="param" value="#{psvgResult.termScreenFieldsDesc['param']}" />
+                <h:outputText id="param" value="#{psvgResult.psvgResultInstance['paramDesc']}" />
+                <h:outputLabel for="dataseries" value="#{psvgResult.termScreenFieldsDesc['dataseries']}" />
+                <h:outputText id="dataseries" value="#{psvgResult.psvgResultInstance['dataseriesDesc']}" />
+                <h:outputLabel for="fractaldimension" value="#{psvgResult.termScreenFieldsDesc['fractaldimension']}" />
+                <h:outputText id="fractaldimension" value="#{psvgResult.psvgResultInstance['fractaldimension']}" />
+                <h:outputLabel for="intercept" value="#{psvgResult.termScreenFieldsDesc['intercept']}" />
+                <h:outputText id="intercept" value="#{psvgResult.psvgResultInstance['intercept']}" />
+                <h:outputLabel for="interceptse" value="#{psvgResult.termScreenFieldsDesc['interceptse']}" />
+                <h:outputText id="interceptse" value="#{psvgResult.psvgResultInstance['interceptse']}" />
+                <h:outputLabel for="fractaldimensionse" value="#{psvgResult.termScreenFieldsDesc['fractaldimensionse']}" />
+                <h:outputText id="fractaldimensionse" value="#{psvgResult.psvgResultInstance['fractaldimensionse']}" />
+                <h:outputLabel for="chisquaredval" value="#{psvgResult.termScreenFieldsDesc['chisquaredval']}" />
+                <h:outputText id="chisquaredval" value="#{psvgResult.psvgResultInstance['chisquaredval']}" />
+                <h:outputLabel for="rsquaredval" value="#{psvgResult.termScreenFieldsDesc['rsquaredval']}" />
+                <h:outputText id="rsquaredval" value="#{psvgResult.psvgResultInstance['rsquaredval']}" />
+                <h:outputLabel for="queued" value="#{psvgResult.termScreenFieldsDesc['queued']}" />
+                <h:outputText id="queued" value="#{psvgResult.psvgResultInstance['queued']}" />
+
+            </p:panelGrid>
+            <hr></hr>
+            <h:form>
+                <p:button styleClass="black-button" value="Back" outcome="PSVGCalcList"/>
+                <p:button styleClass="blue-button" value="View Result Details" outcome="PSVGResultDetails"/>
+                <p:button styleClass="blue-button" value="View Result Chart" outcome="PSVGResultChart"/>
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

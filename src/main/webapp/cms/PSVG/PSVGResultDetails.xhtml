@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{psvgResultDetails.termSlug}"></f:viewParam>
+            <f:viewParam name="terminstanceslug" value="#{psvgResultDetails.termInstanceSlug}"></f:viewParam>
+            <f:viewAction action="#{psvgResultDetails.getPsvgResultData()}"/>
+        </f:metadata>
+        <div class="card">
+        <h1>#{psvgResultDetails.termName}</h1>
+        </div>
+        <h:form>
+            <p:button styleClass="black-button" value="Back" outcome="PSVGResult"/>
+            <hr></hr>
+            <p:dataTable id="psvgresultdet" var="psvgresultdet" value="#{psvgResultDetails.psvgResultsList}" 
+                         paginatorTemplate=" {Exporters}"
+                         paginator="true"  >
+                <f:facet name="{Exporters}">
+                    <h:commandLink>
+                        <p:graphicImage name="images/csv.png" library="term" width="24" />
+                        <p:dataExporter type="csv" target="psvgresultdet" fileName="PSVG" />
+                    </h:commandLink>
+                </f:facet>
+                <p:column headerText="Degree Value">
+                    <h:outputText value="#{psvgresultdet.degreeval}"></h:outputText>
+                </p:column>
+                <p:column headerText="Probability of Degree Value">
+                    <h:outputText value="#{psvgresultdet.probofdegreeval}"></h:outputText>
+                </p:column>
+                <p:column headerText="Log of Degree Value">
+                    <h:outputText value="#{psvgresultdet.logofdegreeval}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Log of Probability of Degree Value">
+                    <h:outputText value="#{psvgresultdet.logofprobofdegreeval}"></h:outputText>
+                </p:column>
+                <p:column headerText="Nodes Degree Value">
+                    <h:outputText value="#{psvgresultdet.nodeswithdegval}"></h:outputText>
+                </p:column>
+                <p:column headerText="Required">
+                    <h:outputText value="#{psvgresultdet.required}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>            
+    </ui:define>
+
+</ui:composition>

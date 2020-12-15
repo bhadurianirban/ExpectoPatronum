@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+    
+    <name>primefaces_omega</name>
+    
+    <component>
+        <component-type>org.primefaces.component.OmegaMenu</component-type>
+        <component-class>org.primefaces.omega.component.menu.OmegaMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.OmegaMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.omega.component.menu.OmegaMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    <navigation-rule>
+
+        <navigation-case>
+            <from-action>#{loginController.moveToDefaultHost}</from-action>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{loginController.moveToDefaultHost}</from-action>
+            <from-outcome>access</from-outcome>
+            <to-view-id>/access.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Landing</from-outcome>
+            <to-view-id>/cms/Landing.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <!--    Navigation cases for Term Browse-->
+    <!--    Navigation cases for Root Term List-->
+    <navigation-rule>
+        <from-view-id>/cms/browse/RootTermList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>RootTermInstanceList</from-outcome>
+            <to-view-id>/cms/browse/RootTermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{rootTermList.selectedTerm['termSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+    </navigation-rule>
+    <!--    Navigation cases for Root Term Instance List-->
+    <navigation-rule>
+        <from-view-id>/cms/browse/RootTermInstanceList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>ChildTermList</from-outcome>
+            <to-view-id>/cms/browse/ChildTermList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>pts</name>  
+                    <value>#{rootTermInstanceList.selectedTermInstance['termSlug']}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ptis</name>  
+                    <value>#{rootTermInstanceList.selectedTermInstance['termInstanceSlug']}</value>  
+                </view-param>                  
+            </redirect>  
+        </navigation-case>
+        <!--    Browse from child term instance list in case there is only one term meta as child-->
+        <navigation-case>
+            <from-outcome>ChildTermInstanceList</from-outcome>
+            <to-view-id>/cms/browse/ChildTermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>pts</name>  
+                    <value>#{rootTermInstanceList.parentTermSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ptis</name>  
+                    <value>#{rootTermInstanceList.parentTermInstanceSlug}</value>  
+                </view-param>      
+                <view-param>  
+                    <name>cts</name>  
+                    <value>#{rootTermInstanceList.childTermSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ctmk</name>  
+                    <value>#{rootTermInstanceList.childTermMetaKey}</value>  
+                </view-param>
+                                           
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>RootTermList</from-outcome>
+            <to-view-id>/cms/browse/RootTermList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for Child Term List-->
+    <navigation-rule>
+        <from-view-id>/cms/browse/ChildTermList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>ChildTermInstanceList</from-outcome>
+
+            <to-view-id>/cms/browse/ChildTermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>pts</name>  
+                    <value>#{childTermList.parentTermSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ptis</name>  
+                    <value>#{childTermList.parentTermInstanceSlug}</value>  
+                </view-param>      
+                <view-param>  
+                    <name>cts</name>  
+                    <value>#{childTermList.selectedTermMeta['termSlug']}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ctmk</name>  
+                    <value>#{childTermList.selectedTermMeta['metaKey']}</value>  
+                </view-param>
+                                           
+            </redirect>  
+        </navigation-case>
+
+
+        <!--    Back from Child term list in case parent term is root-->        
+        <navigation-case>
+            <from-outcome>RootTermInstanceList</from-outcome>
+            <to-view-id>/cms/browse/RootTermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{childTermList.parentTermSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+    </navigation-rule>
+
+    
+    
+    <!--    Navigation cases for Child Term Instance List-->
+    <navigation-rule>
+        <from-view-id>/cms/browse/ChildTermInstanceList.xhtml</from-view-id>
+        <!--    Browse from child term instance list-->
+        <navigation-case>
+            <from-outcome>ChildTermList</from-outcome>
+            <to-view-id>/cms/browse/ChildTermList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>pts</name>  
+                    <value>#{childTermInstanceList.selectedTermInstance['termSlug']}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ptis</name>  
+                    <value>#{childTermInstanceList.selectedTermInstance['termInstanceSlug']}</value>  
+                </view-param>
+            </redirect>  
+        </navigation-case>
+        <!--    Browse from child term instance list in case there is only one term meta as child-->
+        <navigation-case>
+            <from-outcome>ChildTermInstanceList</from-outcome>
+            <to-view-id>/cms/browse/ChildTermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>pts</name>  
+                    <value>#{childTermInstanceList.parentTermSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ptis</name>  
+                    <value>#{childTermInstanceList.parentTermInstanceSlug}</value>  
+                </view-param>      
+                <view-param>  
+                    <name>cts</name>  
+                    <value>#{childTermInstanceList.childTermSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>ctmk</name>  
+                    <value>#{childTermInstanceList.childTermMetaKey}</value>  
+                </view-param>
+                                           
+            </redirect>  
+        </navigation-case>
+    </navigation-rule>  
+    <!--    Navigation cases for Generic TermInstances-->
+    <!--    Navigation cases for TermInstance List-->
+    <navigation-rule>
+        <from-view-id>/cms/TermInstance/TermInstanceList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>TermInstanceAdd</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceAdd.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceList.termSlug}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>TermInstanceEdit</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceEdit.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceList.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{termInstanceList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>                 
+            </redirect> 
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>TermInstanceList</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceList.termSlug}</value>  
+                </view-param>                 
+            </redirect>
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for TermInstance Add-->
+    <navigation-rule>
+        <from-view-id>/cms/TermInstance/TermInstanceAdd.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>TermInstanceList</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceAdd.termSlug}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>TermInstanceAdd</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceAdd.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceAdd.termSlug}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+    </navigation-rule>
+    <!--    Navigation cases for TermInstance Edit-->
+    <navigation-rule>
+        <from-view-id>/cms/TermInstance/TermInstanceEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>TermInstanceList</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceEdit.termSlug}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>TermInstanceEdit</from-outcome>
+            <to-view-id>/cms/TermInstance/TermInstanceEdit.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{termInstanceEdit.termSlug}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+    </navigation-rule>
+    <!--    Navigation cases for Menu Maintenance-->
+    <!--    Navigation cases for Menu List-->
+    <navigation-rule>
+        <from-view-id>/cms/Menu/MenuList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MenuAdd</from-outcome>
+            <to-view-id>/cms/Menu/MenuAdd.xhtml</to-view-id>
+            <redirect />  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MenuEdit</from-outcome>
+            <to-view-id>/cms/Menu/MenuEdit.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>id</name>  
+                    <value>#{menuList.selectedMenu['id']}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>MenuList</from-outcome>
+            <to-view-id>/cms/Menu/MenuList.xhtml</to-view-id>
+            <redirect />  
+        </navigation-case>                       
+    </navigation-rule>
+    <!--    Navigation cases for Menu Add-->
+    <navigation-rule>
+        <from-view-id>/cms/Menu/MenuAdd.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MenuList</from-outcome>
+            <to-view-id>/cms/Menu/MenuList.xhtml</to-view-id>
+            <redirect />  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MenuAdd</from-outcome>
+            <to-view-id>/cms/Menu/MenuAdd.xhtml</to-view-id>
+            <redirect />  
+        </navigation-case>
+    </navigation-rule>
+    <!--    Navigation cases for Menu Edit-->
+    <navigation-rule>
+        <from-view-id>/cms/Menu/MenuEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MenuList</from-outcome>
+            <to-view-id>/cms/Menu/MenuList.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MenuEdit</from-outcome>
+            <to-view-id>/cms/Menu/MenuEdit.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>id</name>  
+                    <value>#{menuEdit.menuId}</value>  
+                </view-param>  
+            </redirect> 
+        </navigation-case>
+    </navigation-rule> 
+    <!--    Navigation cases for Dataseries-->
+    <!--    Navigation cases for Dataseries List-->
+    <navigation-rule>
+        <from-view-id>/cms/DataSeries/DataSeriesList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>DataSeriesAdd</from-outcome>
+            <to-view-id>/cms/DataSeries/DataSeriesAdd.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{dataSeriesList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>DataSeriesList</from-outcome>
+            <to-view-id>/cms/DataSeries/DataSeriesList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{dataSeriesList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>DataSeriesView</from-outcome>
+            
+            <to-view-id>/cms/DataSeries/DataSeriesView.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{dataSeriesList.termSlug}</value>
+                </view-param> 
+                <view-param>        
+                    <name>cumulative</name>  
+                    <value>#{dataSeriesList.viewCumulative}</value>
+                </view-param> 
+                <view-param>     
+                    <name>terminstanceslug</name>  
+                    <value>#{dataSeriesList.selectedMetaData['termInstanceSlug']}</value>                                         
+                </view-param> 
+            </redirect>  
+        </navigation-case>         
+    </navigation-rule>
+    <!--    Navigation cases for Dataseries Add-->
+    <navigation-rule>
+        <from-view-id>/cms/DataSeries/DataSeriesAdd.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>DataSeriesList</from-outcome>
+            <to-view-id>/cms/DataSeries/DataSeriesList.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <param-name>termslug</param-name>
+                    <param-value>#{dataSeriesAdd.termSlug}</param-value>
+                </view-param>
+            </redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>DataSeriesAdd</from-outcome>
+            <to-view-id>/cms/DataSeries/DataSeriesAdd.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <param-name>termslug</param-name>
+                    <param-value>#{dataSeriesAdd.termSlug}</param-value>
+                </view-param>
+            </redirect>
+        </navigation-case>            
+    </navigation-rule>
+    <!--    Navigation cases for Dataseries View-->
+    <navigation-rule>
+        <from-view-id>/cms/DataSeries/DataSeriesView.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>DataSeriesList</from-outcome>
+            <to-view-id>/cms/DataSeries/DataSeriesList.xhtml</to-view-id>
+            <redirect include-view-params="true">
+                <view-param>
+                    <param-name>termslug</param-name>
+                    <param-value>#{dataSeriesView.termSlug}</param-value>
+                </view-param>
+            </redirect>
+        </navigation-case>  
+    </navigation-rule>
+    <!--    Navigation cases for Dataseries MXDXA Calculation-->
+    <!--    Navigation cases for Dataseries MXDXA Calculation List-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDXA/MFDXACalcList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDXACalc</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXACalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDXAResultSummary</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXAResultSummary.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>   
+                    <value>#{mfdxaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDXAResult</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXAResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaList.termSlug}</value>  
+                </view-param> 
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdxaList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDXACalcList</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for MXDXA Calculation Result-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDXA/MFDXAResult.xhtml</from-view-id>
+        <navigation-case>
+ 
+            <from-outcome>MFDXACalcList</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaResult.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for  MXDXA Calculation processing-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDXA/MFDXACalc.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDXACalcList</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>   
+        <navigation-case>
+            <from-outcome>MFDXACalc</from-outcome>
+            <to-view-id>/cms/MFDXA/MFDXACalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdxaCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>                 
+    </navigation-rule>
+    <!--    Navigation cases for Dataseries MFDFA Calculation-->
+    <!--    Navigation cases for Dataseries MFDFA Calculation List-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFACalcList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFACalc</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDFAResult</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaList.termSlug}</value>  
+                </view-param> 
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdfaList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDFAResultSummary</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResultSummary.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaList.termSlug}</value>  
+                </view-param> 
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDFACalcList</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for MFDFA Calculation Summary-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFAResultSummary.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFACalcList</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+                   
+    </navigation-rule>
+    <!--    Navigation cases for MFDFA Calculation Result-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFAResult.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFACalcList</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaResult.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>MFDFAResultChart</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResultChart.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdfaResult.termInstanceSlug}</value>  
+                </view-param>   
+            </redirect>  
+        </navigation-case>     
+        <navigation-case>
+            <from-outcome>MFDFAResultDetails</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResultDetails.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdfaResult.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>                     
+    </navigation-rule>
+    <!--    Navigation cases for MFDFA Calculation Result Details-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFAResultDetails.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFAResult</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaResultDetails.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdfaResultDetails.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>
+    <!--    Navigation cases for MFDFA Calculation Result Details-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFAResultChart.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFAResult</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFAResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaResultChart.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{mfdfaResultChart.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>    
+    <!--    Navigation cases for  MFDFA Calculation processing-->
+    <navigation-rule>
+        <from-view-id>/cms/MFDFA/MFDFACalc.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>MFDFACalcList</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>   
+        <navigation-case>
+            <from-outcome>MFDFACalc</from-outcome>
+            <to-view-id>/cms/MFDFA/MFDFACalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{mfdfaCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>                 
+    </navigation-rule>
+    <!--    Navigation cases for  IPSVG Calculation-->
+    <!--    Navigation cases for  IPSVG Calculation List-->
+    <navigation-rule>
+        <from-view-id>/cms/IPSVG/IPSVGCalcList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>IPSVGCalc</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>IPSVGResult</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGList.termSlug}</value>  
+                </view-param> 
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{iPSVGList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>IPSVGCalcList</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for IPSVG Calculation Result-->
+    <navigation-rule>
+        <from-view-id>/cms/IPSVG/IPSVGResult.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>IPSVGCalcList</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGResult.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>IPSVGResultChart</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGResultChart.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{iPSVGResult.termInstanceSlug}</value>  
+                </view-param>   
+            </redirect>  
+        </navigation-case>     
+        <navigation-case>
+            <from-outcome>IPSVGResultDetails</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGResultDetails.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{iPSVGResult.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>                     
+    </navigation-rule>
+    <!--    Navigation cases for IPSVG Calculation Result Details-->
+    <navigation-rule>
+        <from-view-id>/cms/IPSVG/IPSVGResultDetails.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>IPSVGResult</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGResultDetails.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{iPSVGResultDetails.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>
+    <!--    Navigation cases for IPSVG Calculation Result Chart-->
+    <navigation-rule>
+        <from-view-id>/cms/IPSVG/IPSVGResultChart.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>IPSVGResult</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGResultChart.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{iPSVGResultChart.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>    
+    <!--    Navigation cases for  IPSVG Calculation processing-->
+    <navigation-rule>
+        <from-view-id>/cms/IPSVG/IPSVGCalc.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>IPSVGCalcList</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>   
+        <navigation-case>
+            <from-outcome>IPSVGCalc</from-outcome>
+            <to-view-id>/cms/IPSVG/IPSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{iPSVGCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>                 
+    </navigation-rule> 
+    <!--    Navigation cases for  PSVG Calculation-->
+    <!--    Navigation cases for  PSVG Calculation List-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGCalcList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGResultSummary</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResultSummary.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>
+                               
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PSVGCalc</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>calctype</name>  
+                    <value>#{psvgList.calcNormal}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PSVGCalcXY</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>calctype</name>  
+                    <value>#{psvgList.calcXY}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PSVGCalcHorizontal</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>
+                <view-param>  
+                    <name>calctype</name>  
+                    <value>#{psvgList.calcHorizontal}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>                
+        <navigation-case>
+            <from-outcome>PSVGResult</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param> 
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{psvgList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PSVGCalcList</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for PSVG Calculation Result-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGResult.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGCalcList</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgResult.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PSVGResultChart</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResultChart.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{psvgResult.termInstanceSlug}</value>  
+                </view-param>   
+            </redirect>  
+        </navigation-case>     
+        <navigation-case>
+            <from-outcome>PSVGResultDetails</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResultDetails.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgResult.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{psvgResult.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>                     
+    </navigation-rule>
+    <!--    Navigation cases for PSVG Calculation Summary-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGResultSummary.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGCalcList</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+                   
+    </navigation-rule>
+    <!--    Navigation cases for PSVG Calculation Result Details-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGResultDetails.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGResult</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgResultDetails.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{psvgResultDetails.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>
+    <!--    Navigation cases for PSVG Calculation Result Chart-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGResultChart.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGResult</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGResult.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgResultChart.termSlug}</value>  
+                </view-param>  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{psvgResultChart.termInstanceSlug}</value>  
+                </view-param>                 
+            </redirect>  
+        </navigation-case>   
+    </navigation-rule>    
+    <!--    Navigation cases for  PSVG Calculation processing-->
+    <navigation-rule>
+        <from-view-id>/cms/PSVG/PSVGCalc.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>PSVGCalcList</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalcList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>   
+        <navigation-case>
+            <from-outcome>PSVGCalc</from-outcome>
+            <to-view-id>/cms/PSVG/PSVGCalc.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{psvgCalc.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>                 
+    </navigation-rule>  
+    <!--    Navigation cases for  Graph -->
+    <!--    Navigation cases for  Edge List-->
+    <navigation-rule>
+        <from-view-id>/cms/Graph/EdgeListList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>VGGraphList</from-outcome>
+            <to-view-id>/cms/Graph/VGGraphList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{edgeListList.psvgTermSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EdgeListList</from-outcome>
+            <to-view-id>/cms/Graph/EdgeListList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{edgeListList.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>NetworkStatsOptions</from-outcome>
+            <to-view-id>/cms/Graph/NetworkStatsOptions.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{edgeListList.selectedMetaData['termInstanceSlug']}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>UploadGraphFile</from-outcome>
+            <to-view-id>/cms/Graph/UploadGraphFile.xhtml</to-view-id>
+            <redirect /> 
+        </navigation-case>               
+    </navigation-rule> 
+    <!--    Navigation cases for  Import VG Edges List-->
+    <navigation-rule>
+        <from-view-id>/cms/Graph/VGGraphList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>EdgeListList</from-outcome>
+            <to-view-id>/cms/Graph/EdgeListList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{importEdgeListFromVG.graphTermSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case> 
+        <navigation-case>
+            <from-outcome>VGGraphList</from-outcome>
+            <to-view-id>/cms/Graph/VGGraphList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{importEdgeListFromVG.termSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case>        
+    </navigation-rule>
+    <!--    Navigation cases for  Import VG Edges List-->
+    <navigation-rule>
+        <from-view-id>/cms/Graph/UploadGraphFile.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>EdgeListList</from-outcome>
+            <to-view-id>/cms/Graph/EdgeListList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{uploadGraphFile.graphTermSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case> 
+        
+    </navigation-rule>      
+<!--    Navigation cases for  Network Stats Options -->
+    <navigation-rule>
+        <from-view-id>/cms/Graph/NetworkStatsOptions.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>NetworkStatsOptions</from-outcome>
+            <to-view-id>/cms/Graph/NetworkStatsOptions.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>terminstanceslug</name>  
+                    <value>#{networkStatsOptions.termInstanceSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case> 
+        <navigation-case>
+            <from-outcome>EdgeListList</from-outcome>
+            <to-view-id>/cms/Graph/EdgeListList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{networkStatsOptions.termSlug}</value>  
+                </view-param>  
+            </redirect>  
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>NetworkStatsList</from-outcome>
+            <to-view-id>/cms/Graph/NetworkStatsList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{networkStatsOptions.networtStatsTermSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case>        
+    </navigation-rule>  
+<!--    Navigation cases for  Network Stats List -->
+    <navigation-rule>
+        <from-view-id>/cms/Graph/NetworkStatsList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>NetworkStatsList</from-outcome>
+            <to-view-id>/cms/Graph/NetworkStatsList.xhtml</to-view-id>
+            <redirect include-view-params="true">  
+                <view-param>  
+                    <name>termslug</name>  
+                    <value>#{networkStatsList.termSlug}</value>  
+                </view-param>  
+            </redirect>   
+        </navigation-case> 
+          
+    </navigation-rule>            
+</faces-config>

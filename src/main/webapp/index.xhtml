@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>#{loginController.productName}</title>
+        <script type="text/javascript">
+            $(function () {
+                $('#menu-button').on('click', function (e) {
+                    $('#menu').toggleClass('overlay-menu');
+                    e.preventDefault();
+                });
+            });
+        </script>
+        <link rel="shortcut icon" type="image/x-icon" href="#{loginController.iconAndLogo}"/>
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body styleClass="landing-body">
+        <div class="landing-wrapper">
+            <div class="landing-header">
+                <div class="landing-header-content clearfix">
+                    <image src="#{loginController.iconAndLogo}" width="35" height="40"/>
+
+                    <a id="menu-button" href="#">
+                        <span class="fa fa-bars"></span>
+                    </a>
+                    <ul id="menu">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#fractalStudio">Introduction</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#mobile">Mobile</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <!--                        <li><a href="#video">Video</a></li>-->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="intro">
+                <image src="#{loginController.selectedHomeImg}"  height="700" width="100%"/>
+                <div class="intro-content">
+                    <span class="title">#{loginController.productName}</span>
+                    <span class="subtitle">#{loginController.productCaption} </span>
+                    <div id="indeximage">
+                        <image src="#{loginController.homeScreenLogo}" height="100%"/>
+                    </div>
+                    <div id="loginhost">
+                        <p:button  styleClass="button" value="Enter for #{loginController.tenantName}" outcome="Login" />
+                    </div>
+                    <div id="changehost">
+                        <p:button  styleClass="button" value="Other" outcome="SelectTenant" />
+                    </div>
+                </div>
+            </div>
+            <div id="fractalStudio">
+                <div class="fractalStudio-content">
+                    <div class="title">ExpectoPatronum</div>
+                    <div class="subtitle">Analytics with fractals.</div>
+                    <div class="content">In the mid 70’s when people were playing around with early versions of computers, a mathematician was plotting the results of an equation containing a complex number, in a reiterative manner. And to his surprise, the results were quite fascinating: the patterns that emerged were beautiful to look at; but more interestingly, when you zoom into a small part of the pattern, it seemed to bring out a pattern that was so similar to the original. Similar, but different. And the mathematical discipline of fractals was born. It did not take long for people to recognize that this was an important discovery. Fractals had fractal dimensions. A river is not a straight line, mountains are not cones and clouds are not spherical. The new discipline brought out the fractal dimensions of natural structures. Mathematicians could paint trees, mountains, rivers and clouds with equations. And they looked more realistic than any painter could ever imagine. Scientists were suddenly seeing fractals everywhere. Terms such as scaling laws and power laws started appearing in almost all disciplines. Soon mathematicians realized a hidden complexity: fractals that keep changing their dimensions in different directions. And the notion of multi-fractals was born. This too spread to other disciplines like wild fire. Patterns in time and space that hitherto seemed too complex to explain suddenly became simple enough. Even the complexity of literature, music, painting and other art forms came under the purview of this simplicity.1 At DGRF a Fractal Analytics tool called FractalStudio is being developed consolidating different methods for understanding the fractal dimensions of natural time series like sound waves and biomedical time series like EEG ECG etc. and even in particle physics. Different fractal analysis techniques have their own parameters for customization and the tool incorporates all of them. With more and more research the tool is being refined for higher accuracy. This tool is portable and can be very easily made compatible with android platforms and can be made to run on other computers as well. This can be enhanced to work in distributed analytic systems like Hadoop. Till now this had yielded remarkable results in the area of cognition, biomedical research and other areas.This is the heart of all results reported so far from the organisation.</div>
+                </div>
+            </div>
+            <div id="features">
+                <div class="features-content">
+                    <span class="feature-title">ExpectoPatronum</span>
+                    <p>Web interface for analytics with fractal techniques.</p>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_1.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>PSVG</span>
+                                <p>Simple and fast computational method, the visibility algorithm converts a time series into a graph</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_2.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>MFDFA</span>
+                                <p>Multifractal Detrended fluctuations.</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_3.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>MFDXA</span>
+                                <p>Multifractal detrended Cross Correlation</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_4.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>IPSVG</span>
+                                <p>Improved PSVG, Calulation of PSVG of a Time Series for Different gaps</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_5.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>PSVG XY</span>
+                                <p>Power Scale freeness calculation for non uniform time series</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_6.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>H PSVG</span>
+                                <p>Power Scale freeness based on Horizontal Visibility.</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile">
+                <div class="mobile-content">
+                    <span class="title">Fully Responsive Design</span>
+                    <span class="subtitle">Can be used through mobiles.</span>
+                    <p:graphicImage name="images/mobile.jpeg" library="term" width="310" height="447"/>
+                    
+                </div>
+            </div>
+
+            <div id="pricing">
+                <div class="pricing-content">
+                    <span class="pricing-title">Pricing</span>
+                    <p>Prices are predictive and is negotiable.</p>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-basic pricing-box">
+                                <span class="pricing-name">Basic</span>
+                                <div class="pricing-fee">₹10,000</div>
+
+                                <p>1 years of service</p>
+                                <p>1GB Data Storage</p>
+                                <p>2 Users</p>
+                                <p>2 months free maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-standard pricing-box">
+                                <span class="pricing-name">Standard</span>
+                                <div class="pricing-fee">₹20,000</div>
+
+                                <p>2 years of service</p>
+                                <p>5GB Data Storage</p>
+                                <p>10 Users</p>
+                                <p>1 years free maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-professional pricing-box">
+                                <span class="pricing-name">Professional</span>
+                                <div class="pricing-fee">₹60,000</div>
+
+                                <p>5 years of service</p>
+                                <p>10GB Data Storage</p>
+                                <p>50 Users</p>
+                                <p>Free maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="video">
+                <div class="video-content">
+                    <span class="video-title">Let us Start</span>
+                    <p>And the day came when the risk to remain tight in a bud was more painful than the risk it took to blossom</p>
+                    <p:button  styleClass="button" value="Enter #{loginController.productName} for tenant #{loginController.tenantName}" outcome="Login" />
+<!--                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/GHAMyHerv90" frameborder="0" width="560"></iframe>
+                    </div>-->
+                </div>
+            </div>
+
+            <div class="landing-footer">
+                <div class="landing-footer-content">
+
+
+                    <div class="footer-bottom">
+                        ©  <a class="tag-cloud-link" href="https://www.researchgate.net/profile/Anirban_Bhaduri2">Anirban Bhaduri</a> and  <a class="tag-cloud-link" href="https://www.researchgate.net/profile/Susmita_Bhaduri">Susmita Bhaduri</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+        <h:outputStylesheet name="#{loginController.selectedTheme}" library="term" />
+    </h:body>
+
+</html>

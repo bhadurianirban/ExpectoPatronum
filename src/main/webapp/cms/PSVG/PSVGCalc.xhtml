@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{psvgCalc.termSlug}"></f:viewParam>
+            <f:viewParam name="calctype" value="#{psvgCalc.calcType}"></f:viewParam>
+            <f:viewAction action="#{psvgCalc.creteTermForm()}"></f:viewAction>
+        </f:metadata>
+        <h:form id="psvgform">
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+                
+            <hr></hr>
+            <p:dataTable id="psvgparamDT" var="psvgparam" value="#{psvgCalc.psvgParamDataList}" selection="#{psvgCalc.selectedPsvgParamData}" rowKey="#{psvgparam['termInstanceSlug']}">
+                <f:facet name="header">
+                    Select PSVG Parameter
+                </f:facet>
+                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['name']}">
+                    <h:outputText value="#{psvgparam['name']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['PSVGRequiredStart']}">
+                    <h:outputText value="#{psvgparam['PSVGRequiredStart']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['PSVGDataPartFromStart']}">
+                    <h:outputText value="#{psvgparam['PSVGDataPartFromStart']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['maxNodesForCalc']}">
+                    <h:outputText value="#{psvgparam['maxNodesForCalc']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['includePSVGInterCept']}">
+                    <h:outputText value="#{psvgparam['includePSVGInterCept']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.psvgParamFieldLabels['rejectCut']}">
+                    <h:outputText value="#{psvgparam['rejectCut']}" />
+                </p:column>
+            </p:dataTable>
+            <hr></hr>
+            <p:dataTable id="dataseriesDT" var="dataseries" value="#{psvgCalc.dataSeriesList}" selection="#{psvgCalc.selectedDataSeriesList}" rowKey="#{dataseries['termInstanceSlug']}" >
+                <f:facet name="header">
+                    Select Data Series
+                </f:facet>
+                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                <p:column headerText="#{psvgCalc.dataSeriesFieldsLabel['name']}">
+                    <h:outputText value="#{dataseries['name']}" />
+                </p:column>
+                <p:column headerText="#{psvgCalc.dataSeriesFieldsLabel['id']}">
+                    <h:outputText value="#{dataseries['id']}" />
+                </p:column>
+
+            </p:dataTable>
+            <div class="card">
+                <p:commandButton styleClass="blue-button" id="calculateBtn"  value="Calculate" update="@form" action="#{psvgCalc.startCalc()}"></p:commandButton>
+                <p:button styleClass="black-button"  value="Back" outcome="PSVGCalcList"/>
+
+            </div>
+            <p:blockUI block="psvgform" trigger="calculateBtn" >
+                <p:graphicImage name="images/preloader.gif" library="omega-layout"/>
+            </p:blockUI>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
