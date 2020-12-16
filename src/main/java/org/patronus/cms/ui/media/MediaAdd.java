@@ -35,7 +35,8 @@ import org.hedwig.cms.dto.TermMetaDTO;
 import org.patronus.cms.ui.login.CMSClientAuthCredentialValue;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.extensions.model.fluidgrid.FluidGridItem;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
+
 
 /**
  *
@@ -115,7 +116,7 @@ public class MediaAdd implements Serializable {
         byte[] bytes = null;
 
         if (null != uploadedFile) {
-            bytes = uploadedFile.getContents();
+            bytes = uploadedFile.getContent();
             String tempPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 
             tempFilePath = tempPath + "temp" + screenTermInstance.get("user") + fileExtension;

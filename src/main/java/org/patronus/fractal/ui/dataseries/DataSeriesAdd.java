@@ -34,7 +34,8 @@ import org.patronus.core.dto.FractalDTO;
 import org.patronus.cms.ui.login.CMSClientAuthCredentialValue;
 import org.patronus.cms.ui.login.LoginController;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
+
 
 /**
  *
@@ -100,7 +101,7 @@ public class DataSeriesAdd implements Serializable {
         byte[] bytes = null;
 
         if (null != uploadedFile) {
-            bytes = uploadedFile.getContents();
+            bytes = uploadedFile.getContent();
             String tempPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 
             String tempFilePath = tempPath + "temp" + CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getUserId() + fileNameAndTempPathList.size() + fileName;

@@ -32,7 +32,7 @@ import org.patronus.termmeta.GraphMeta;
 
 import org.patronus.fractal.ui.dataseries.DataSeriesAdd;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -59,7 +59,7 @@ public class UploadGraphFile implements Serializable{
         byte[] bytes = null;
 
         if (null != uploadedFile) {
-            bytes = uploadedFile.getContents();
+            bytes = uploadedFile.getContent();
             String tempPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
             String userid = loginController.getUserID();
             tempFilePath = tempPath + "temp"+userid+".csv";

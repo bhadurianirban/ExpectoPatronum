@@ -77,17 +77,16 @@ public class MenuController {
 
             if (menuNode.getChildren() == null) {
                 //this is a leaf node
-                DefaultMenuItem userMenuLeafNode;
+                
                 String termName = menuNode.getTermName();
                 String termUrl = menuNode.getTermUrl();
                 termUrl = "/cms" + termUrl + "?faces-redirect=true&termslug=" + menuNode.getTermSlug();
-                userMenuLeafNode = new DefaultMenuItem(termName);
-                userMenuLeafNode.setOutcome(termUrl);
-                userMenu.addElement(userMenuLeafNode);
+                DefaultMenuItem userMenuLeafNode = DefaultMenuItem.builder().value(termName).outcome(termUrl).build();
+                userMenu.getElements().add(userMenuLeafNode);
             } else {
                 //this is not a leaf node
-                DefaultSubMenu userMenuNode = new DefaultSubMenu(menuNode.getName());
-                userMenu.addElement(userMenuNode);
+                DefaultSubMenu userMenuNode = DefaultSubMenu.builder().label(menuNode.getName()).build();
+                userMenu.getElements().add(userMenuNode);
                 buildMultiMenu(menuNode.getChildren(), userMenuNode);
 
             }
