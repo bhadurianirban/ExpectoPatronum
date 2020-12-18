@@ -296,7 +296,7 @@ public class LoginController implements Serializable {
         }
         String urlPrefix = request.getScheme();
         
-        String redirectUrl = urlPrefix + "://"+ipAddress+"/" + "DGRFCloud/faces/UserRegister.xhtml?tenant="+tenantID+"&product="+productID;
+        String redirectUrl = urlPrefix + "://"+ipAddress+"/" + "Hedwig/faces/UserRegister.xhtml?tenant="+tenantID+"&product="+productID;
         //System.out.println("IP redirectUrl:" +redirectUrl);
          
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();

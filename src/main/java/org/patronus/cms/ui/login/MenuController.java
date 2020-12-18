@@ -11,7 +11,6 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import org.leviosa.core.client.MenuClient;
-import org.leviosa.core.driver.LeviosaClientService;
 import org.hedwig.cms.dto.MenuDTO;
 import org.hedwig.cms.dto.MenuNode;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -56,17 +55,16 @@ public class MenuController {
             menuDTO = menuListGet.getMenuTree(menuDTO);
             MenuNode authorisedMenuRoot = menuDTO.getRootMenuNode();
             List<MenuNode> rootMenuForest = authorisedMenuRoot.getChildren();
-            DefaultSubMenu rootMenu = new DefaultSubMenu("User Menu");
+            DefaultSubMenu rootMenu = DefaultSubMenu.builder().label("User Menu").build();
             //LeviosaClientService ms = new LeviosaClientService(CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServer(),CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServerPort());
             buildMultiMenu(rootMenuForest, rootMenu);
             List<MenuElement> userMenuList = rootMenu.getElements();
             for (MenuElement userMenu : userMenuList) {
-                menuModel.addElement(userMenu);
+                menuModel.getElements().add(userMenu);
             }
-            DefaultMenuItem browseTerms = new DefaultMenuItem("Browse");
             String termBrowseUrl = "/cms/browse/RootTermList?faces-redirect=true";
-            browseTerms.setOutcome(termBrowseUrl);
-            menuModel.addElement(browseTerms);
+            DefaultMenuItem browseTerms = DefaultMenuItem.builder().value("Browse").outcome(termBrowseUrl).build();
+            menuModel.getElements().add(browseTerms);
             //menuModel.addElement(menuMaker.getUserMenu());
 
         }
